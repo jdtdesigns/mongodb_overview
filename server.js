@@ -1,78 +1,75 @@
-
+const { connect, Schema, model } = require('mongoose');
 
 const PORT = process.env.port || 3333;
 
-const { MongoClient, ObjectId } = require('mongodb');
-const url = 'mongodb://localhost:27017';
-const client = new MongoClient(url);
+connect('mongodb://127.0.0.1:27017/coffee_shop_db');
 
-const db_name = 'fruits_db';
+const shopSchema = new Schema({
+  name: String,
+  location: String,
+  is_chain: Boolean,
+  coffees: [{
+    name: String,
+    strength: String
+  }]
+});
 
-client.connect()
-  .then(() => {
-    const db = client.db(db_name);
+const Shop = model('Shop', shopSchema);
 
-    const fruits = db.collection('fruits');
+// Shop.create({
+//   name: 'Starbucks',
+//   location: 'Atlanta',
+//   is_chain: true
+// }).then(new_shop => {
+//   console.log(new_shop);
+// });
 
-    // fruits.insertOne({
-    //   name: 'Apple'
-    // }).then((result) => {
-    //   console.log(result);
-    // });
+// Shop.find()
+//   .then(shops => console.log(shops));
+
+// Shop.findOne({
+//   _id: '653a89ff9cbdc01d40b3d146'
+// }).then(shop => console.log(shop));
+
+// Shop.findByIdAndUpdate('653a89ff9cbdc01d40b3d146', {
+//   name: 'Starbucks'
+// }, {
+//   new: true
+// }).then(shop => console.log(shop));
+
+// Shop.findOneAndUpdate({
+//   name: 'Starbucks'
+// }, {
+//   name: 'Scooters'
+// }, {
+//   new: true
+// }).then(shop => console.log(shop));
+
+// Shop.insertMany([
+//   {
+//     name: 'Starbucks',
+//     location: 'Atlanta'
+//   },
+//   {
+//     name: 'Dunkin',
+//     location: 'Atlanta'
+//   },
+//   {
+//     name: 'Cafe Mez',
+//     location: 'Atlanta'
+//   }
+// ]).then(shops => console.log(shops));
+
+Shop.findByIdAndUpdate('653a95f8bf1f6fb9c323d408', {
+  $push: {
+    coffees: {
+      name: 'cold brew',
+      strength: 'med'
+    }
+  }
+}, { new: true }).then(shop => console.log(shop))
 
 
-    // fruits.find({}).toArray()
-    //   .then(fruits => console.log(fruits));
 
-    // fruits.updateOne(
-    //   { _id: new ObjectId('653a76e136030b3a87d24bc1') },
-    //   { $set: { name: 'Grape' } }
-    // ).then((result) => {
-    //   console.log(result);
-    // });
-
-    // fruits.insertMany([
-    //   {
-    //     name: 'Banana'
-    //   },
-    //   {
-    //     name: 'Kiwi'
-    //   },
-    //   {
-    //     name: 'Orange'
-    //   },
-    //   {
-    //     name: 'Watermelon'
-    //   }
-    // ]).then(() => {
-    //   console.log('insert complete');
-    // });
-
-    // fruits.deleteOne({
-    //   _id: new ObjectId('653a7ea97923a3822ea8287e')
-    // }).then(() => console.log('fruit deleted'));
-
-    // shops
-    // fruits.updateOne({ _id: new ObjectId('653a7ea97923a3822ea8287d') }, {
-    //   $push: {
-    //     shops: {
-    //       name: 'Shop One',
-    //       location: 'Atlanta'
-    //     }
-    //   }
-    // }).then(() => console.log('updated'));
-
-    fruits.find()
-      // .skip(1)
-      // .limit(1)
-      // .sort({ name: -1 })
-      // .forEach(fruit => {
-      //   console.log('fruit', fruit)
-      // })
-      // .count()
-      // .tailable({ awaitData: true })
-
-      .then(result => console.log(result))
-    // .toArray()
-    // .then(fruits => console.log(fruits));
-  });
+// Shop.deleteOne({ name: 'Starbucks' })
+//   .then(shops => console.log('deleted'));
