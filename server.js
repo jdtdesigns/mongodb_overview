@@ -1,20 +1,58 @@
-const { connect, Schema, model } = require('mongoose');
+const express = require('express');
 
-const PORT = process.env.port || 3333;
+const app = express();
 
-connect('mongodb://127.0.0.1:27017/coffee_shop_db');
+const api_routes = require('./controllers/api_routes');
 
-const shopSchema = new Schema({
-  name: String,
-  location: String,
-  is_chain: Boolean,
-  coffees: [{
-    name: String,
-    strength: String
-  }]
-});
+const PORT = process.env.PORT || 3333;
 
-const Shop = model('Shop', shopSchema);
+// Import db connection
+const db = require('./config/connection');
+
+// Allow json to be sent by client
+app.use(express.json());
+
+// Load our routes
+app.use('/api', api_routes);
+
+db.on('open', () => {
+  console.log('db connected');
+  // Start the server
+  app.listen(PORT, () => console.log('Server started on %s', PORT));
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const shopSchema = new Schema({
+//   name: String,
+//   location: String,
+//   is_chain: Boolean,
+//   coffees: [{
+//     name: String,
+//     strength: String
+//   }]
+// });
+
+// const Shop = model('Shop', shopSchema);
 
 // Shop.create({
 //   name: 'Starbucks',
@@ -60,14 +98,14 @@ const Shop = model('Shop', shopSchema);
 //   }
 // ]).then(shops => console.log(shops));
 
-Shop.findByIdAndUpdate('653a95f8bf1f6fb9c323d408', {
-  $push: {
-    coffees: {
-      name: 'cold brew',
-      strength: 'med'
-    }
-  }
-}, { new: true }).then(shop => console.log(shop))
+// Shop.findByIdAndUpdate('653a95f8bf1f6fb9c323d408', {
+//   $push: {
+//     coffees: {
+//       name: 'cold brew',
+//       strength: 'med'
+//     }
+//   }
+// }, { new: true }).then(shop => console.log(shop))
 
 
 
