@@ -15,6 +15,14 @@ app.use(express.json());
 // Load our routes
 app.use('/api', api_routes);
 
+// 404 Catch All for any unknown routes
+app.get('*', (req, res) => {
+  res.status(404).send({
+    message: 'That route is incorrect',
+    error: 404
+  })
+});
+
 db.on('open', () => {
   console.log('db connected');
   // Start the server
