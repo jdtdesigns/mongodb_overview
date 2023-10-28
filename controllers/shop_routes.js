@@ -4,7 +4,7 @@ const Shop = require('../models/Shop');
 
 // Get All Shops
 router.get('/shops', async (req, res) => {
-  const shops = await Shop.find();
+  const shops = await Shop.find().populate('coffees');
 
   res.json(shops);
 });
@@ -50,15 +50,12 @@ router.put('/shop/edit', async (req, res) => {
 // Add Coffee to Shop
 router.put('/shop/:shop_id', async (req, res) => {
   const shop_id = req.params.shop_id;
-  const { name, strength } = req.body;
+  const { coffee_id } = req.body;
 
   try {
     const updated_shop = await Shop.findByIdAndUpdate(shop_id, {
       $push: {
-        coffees: {
-          name: name,
-          strength: strength
-        }
+        coffees: coffee_id
       }
     }, { new: true });
 

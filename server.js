@@ -2,7 +2,7 @@ const express = require('express');
 
 const app = express();
 
-const api_routes = require('./controllers/api_routes');
+const api_routes = require('./controllers');
 
 const PORT = process.env.PORT || 3333;
 
@@ -12,8 +12,8 @@ const db = require('./config/connection');
 // Allow json to be sent by client
 app.use(express.json());
 
-// Load our routes
-app.use('/api', api_routes);
+// Load our routes - localhost:3333/api/shops
+app.use('/', api_routes);
 
 // 404 Catch All for any unknown routes
 app.get('*', (req, res) => {

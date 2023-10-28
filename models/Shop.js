@@ -14,14 +14,8 @@ const shopSchema = new Schema({
     default: true
   },
   coffees: [{
-    name: {
-      type: String,
-      required: true
-    },
-    strength: {
-      type: String,
-      required: true
-    }
+    type: Schema.Types.ObjectId,
+    ref: 'Coffee'
   }]
 });
 
