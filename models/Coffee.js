@@ -3,7 +3,8 @@ const { model, Schema } = require('mongoose');
 const coffeeSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   strength: {
     type: String,

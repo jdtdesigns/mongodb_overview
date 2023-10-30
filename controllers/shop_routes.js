@@ -2,9 +2,13 @@ const router = require('express').Router();
 
 const Shop = require('../models/Shop');
 
+const { isAuthenticated, authenticate } = require('./helpers');
+
 // Get All Shops
 router.get('/shops', async (req, res) => {
-  const shops = await Shop.find().populate('coffees');
+  const shops = await Shop.find()
+    .populate('coffees')
+    .populate('user');
 
   res.json(shops);
 });
@@ -13,16 +17,25 @@ router.get('/shops', async (req, res) => {
 router.get('/shop/:shop_id', async (req, res) => {
   const shop_id = req.params.shop_id;
 
-  const shop = await Shop.findById(shop_id);
+  const shop = await Shop.findById(shop_id)
+    .populate('coffees')
+    .populate('user');
 
   res.json(shop);
 });
 
 // Create a Shop
-router.post('/shops', async (req, res) => {
+router.post('/shops', isAuthenticated, authenticate, async (req, res) => {
   try {
     const shopData = req.body;
-    const newShop = await Shop.create(shopData)
+    const newShop = await Shop.create({
+      ...shopData,
+      user: req.user._id
+    });
+
+    req.user.shops.push(newShop._id);
+    req.user.save();
+
     res.json(newShop);
 
   } catch (error) {
@@ -48,18 +61,24 @@ router.put('/shop/edit', async (req, res) => {
 });
 
 // Add Coffee to Shop
-router.put('/shop/:shop_id', async (req, res) => {
+router.put('/shop/:shop_id', isAuthenticated, authenticate, async (req, res) => {
   const shop_id = req.params.shop_id;
   const { coffee_id } = req.body;
 
   try {
-    const updated_shop = await Shop.findByIdAndUpdate(shop_id, {
-      $push: {
-        coffees: coffee_id
-      }
-    }, { new: true });
 
-    res.json(updated_shop);
+    // const allowed = req.user.shops.some(shop => shop._id.equals(shop_id));
+    const allowed = req.user.shops.includes(shop_id);
+
+    console.log(allowed);
+
+    // const updated_shop = await Shop.findByIdAndUpdate(shop_id, {
+    //   $push: {
+    //     coffees: coffee_id
+    //   }
+    // }, { new: true });
+
+    // res.json(updated_shop);
   } catch (err) {
     console.log(err.message);
     res.status(500).send({ error: err.message });

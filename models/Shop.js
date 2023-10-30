@@ -16,7 +16,11 @@ const shopSchema = new Schema({
   coffees: [{
     type: Schema.Types.ObjectId,
     ref: 'Coffee'
-  }]
+  }],
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 });
 
 const Shop = model('Shop', shopSchema);
