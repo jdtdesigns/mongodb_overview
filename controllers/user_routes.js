@@ -13,23 +13,27 @@ router.post('/register', isLoggedIn, async (req, res) => {
 
     res.json(user);
   } catch (err) {
-    console.log(err.message);
-    res.status(401).send({
-      message: err.message
-    })
+    res.status(401).send({ error: err.message });
+    // const code = err.code;
+    // const errors = [];
+
+    // for (let prop in err.errors) {
+    //   const txt = err.errors[prop].message;
+
+    //   errors.push(txt);
+    // }
+
+    // if (code === 11000) {
+    //   message = 'That email address is already in use';
+    // } else message = err.message.split(':')[2].trim();
+
+    // res.status(401).send({
+    //   message: 'Authentication Error',
+    //   errors
+    // });
   }
 });
 
-/** Log in User
-  - Create a post route that receives email & password
-  - Check if a user exists by the email address
-    - If they don't exist, we send back an error stating they must register
-  - If user exists, we validate their password
-    - Check the formPassword(req.body.password) vs the db stored pass - userObj.validatePass
-    - If the password is invalid, send back the error message
-  - If all checks pass, we create a new session (req.session.user_id = user._id)
-  - Send back the user object
- */
 router.post('/login', isLoggedIn, async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
