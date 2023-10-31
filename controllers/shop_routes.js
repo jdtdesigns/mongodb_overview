@@ -62,7 +62,7 @@ router.put('/shop/edit', async (req, res) => {
 
 // Add Coffee to Shop
 router.put('/shop/:shop_id', isAuthenticated, authenticate, async (req, res) => {
-  const shop_id = req.params.shop_id;
+  const { shop_id } = req.params;
   const { coffee_id } = req.body;
 
   try {
@@ -70,16 +70,15 @@ router.put('/shop/:shop_id', isAuthenticated, authenticate, async (req, res) => 
 
     if (allowed) {
       const updated_shop = await Shop.findByIdAndUpdate(shop_id, {
-        $push: {
+        $addToSet: {
           coffees: coffee_id
         }
       }, { new: true });
 
-      throw new Error('whoops!');
-      // return res.json({
-      //   message: 'Shop updated successfully!',
-      //   shop: updated_shop
-      // });
+      return res.json({
+        message: 'Shop updated successfully!',
+        shop: updated_shop
+      });
     }
 
     // User does not own shop so we deny the coffee addition
