@@ -1,3 +1,7 @@
-const { printName } = require('./lib/tools');
+import './styles/main.scss';
 
-printName('Bob');
+const outputDiv = document.querySelector('#output');
+const landingContent = document.querySelector('#landing-html');
+
+// Set our initial on page load to our landing content
+outputDiv.innerHTML = landingContent.innerHTML;

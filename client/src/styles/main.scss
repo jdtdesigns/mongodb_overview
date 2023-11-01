@@ -1,0 +1,75 @@
+$mainColor: #c19d67;
+$linkColor: #fff;
+
+// Resets
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+// Global Classes
+.row, .column {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+// Custom Styles
+header {
+  padding: 6px 3%;
+  background-color: $mainColor;
+  h3 {
+    color: #fff;
+  }
+  nav {
+    a {
+      color: $linkColor;
+      text-decoration: none;
+    }
+    span {
+      color: #fff;
+    }
+  }
+}
+
+.hero {
+  padding: 15px 5%;
+  h2 {
+    margin-bottom: 15px;
+    color: #777;
+  }
+  button {
+    padding: 5px 20px;
+    background-color: $mainColor;
+    color: #fff;
+    border-radius: 3px;
+    transition: background-color .3s;
+    &:hover {
+      background-color: darken($mainColor, 5%);
+    }
+  }
+}
