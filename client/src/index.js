@@ -5,6 +5,3 @@ import initViews from './lib/handle_views';
 initViews();
 
 
-console.log('test');
-
-

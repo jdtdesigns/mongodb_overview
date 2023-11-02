@@ -37,6 +37,14 @@ function showLogin(e) {
   loginForm.addEventListener('submit', logInUser);
 }
 
+async function logoutUser(e) {
+  e.preventDefault();
+
+  await axios.get('/auth/logout');
+
+  window.location = '/';
+}
+
 async function showHeader() {
   const res = await axios.get('/auth/authenticate');
   const headerEl = document.querySelector('#main-header');
@@ -47,9 +55,14 @@ async function showHeader() {
   });
 
   const loginLink = document.querySelector('a[href="/login"]');
+  const logoutLink = document.querySelector('a[href="/auth/logout"]')
 
   if (loginLink) {
     loginLink.addEventListener('click', showLogin);
+  }
+
+  if (logoutLink) {
+    logoutLink.addEventListener('click', logoutUser);
   }
 }
 
