@@ -25,6 +25,10 @@ module.exports = {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
+      {
+        test: /\.hbs$/,
+        loader: "handlebars-loader"
+      }
     ],
   },
   plugins: [new HtmlWebpackPlugin({
@@ -38,6 +42,10 @@ module.exports = {
   devServer: {
     // static: './dist',
     watchFiles: ['./src/index.html'],
-    port: 8000
+    port: 8000,
+    compress: true,
+    proxy: {
+      '*': 'http://localhost:3333'
+    }
   },
 };

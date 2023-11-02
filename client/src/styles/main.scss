@@ -17,6 +17,18 @@ button {
   cursor: pointer;
 }
 
+a {
+  text-decoration: none;
+}
+
+section {
+  padding: 15px 5%;
+  h2 {
+    margin-bottom: 15px;
+    color: #777;
+  }
+}
+
 // Global Classes
 .row, .column {
   display: flex;
@@ -48,7 +60,6 @@ header {
   nav {
     a {
       color: $linkColor;
-      text-decoration: none;
     }
     span {
       color: #fff;
@@ -70,6 +81,18 @@ header {
     transition: background-color .3s;
     &:hover {
       background-color: darken($mainColor, 5%);
+    }
+  }
+}
+
+.shops {
+  div.shop {
+    background: $mainColor;
+    color: #fff;
+    padding: 15px 5%;
+    border-radius: 3px;
+    &:not(:last-child) {
+      margin-bottom: 15px;
     }
   }
 }
