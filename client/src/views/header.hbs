@@ -1,0 +1,13 @@
+<a href="/">
+  <h3>Coffee Shop App</h3>
+</a>
+<nav class="row align-center">
+  {{#if user}}
+    <p>Welcome, {{user.username}}</p>
+    <a href="/logout">Log Out</a>
+    {{else}}
+    <a href="#">Register</a>
+    <span>or</span>
+    <a href="/login">Log In</a>
+  {{/if}}
+</nav>

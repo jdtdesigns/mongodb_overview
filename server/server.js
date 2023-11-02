@@ -44,13 +44,10 @@ db.on('open', () => {
   console.log('db connected');
   // Start the server
   app.listen(PORT, () => console.log('Server started on %s', PORT));
-})
+});
 
 
-
-
-
-
+console.log('server');
 
 
 
